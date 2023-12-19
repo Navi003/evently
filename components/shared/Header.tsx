@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Button } from "../ui/button";
+import NavItems from "./NavItems";
+import MobileNav from "./MobileNav";
 function Header() {
   return (
     <header className="w-full border-b">
@@ -14,7 +17,23 @@ function Header() {
             alt="evently logo"
           />
         </Link>
-        <div className="w-32 flex justify-end gap-3"></div>
+        <SignedIn>
+          <nav className="md:flex-between hidden w-full max-w-xs">
+            <NavItems />
+          </nav>
+        </SignedIn>
+
+        <div className="w-32 flex justify-end gap-3">
+          <SignedIn>
+            <UserButton afterSignOutUrl="/"></UserButton>
+            <MobileNav />
+          </SignedIn>
+          <SignedOut>
+            <Button asChild className="rounded-full" size="lg">
+              <Link href="/sign-in">Login</Link>
+            </Button>
+          </SignedOut>
+        </div>
       </div>
     </header>
   );
